@@ -1,0 +1,53 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="Sound.Domain\Entities\Album.cs" />
+    <Compile Include="Sound.Domain\Entities\Artist.cs" />
+    <Compile Include="Sound.Domain\Entities\LibraryMusic.cs" />
+    <Compile Include="Sound.Domain\Entities\Music.cs" />
+    <Compile Include="Sound.Domain\Entities\Playlist.cs" />
+    <Compile Include="Sound.Domain\Entities\PlaylistMusic.cs" />
+    <Compile Include="SoundSpace.Infrastructure\SoundSpaceDbContext.cs" />
+    <Compile Include="WeatherForecast.cs" Condition="Exists('WeatherForecast.cs')" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Sound.Api\" />
+    <Folder Include="Sound.Application\" />
+    <Folder Include="Sound.Domain\" />
+    <Folder Include="Sound.Tests\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="ddd.Infrastructure\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="ddd.Infrastructure\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="ddd.Infrastructure\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ddd.Infrastructure\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="Sound.Domain\Sound.Domain.csproj" />
+    <ProjectReference Include="SoundSpace.Infrastructure\SoundSpace.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

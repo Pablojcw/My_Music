@@ -1,0 +1,20 @@
+@"
+# Build do .NET
+**/bin/
+**/obj/
+
+# IDEs
+.idea/
+.vs/
+
+# Arquivos locais do Visual Studio
+*.user
+*.suo
+
+# Logs
+*.log
+
+# Configurações locais e segredos
+appsettings.Development.json
+.env
+"@ | Set-Content -Encoding utf8 .gitignore
