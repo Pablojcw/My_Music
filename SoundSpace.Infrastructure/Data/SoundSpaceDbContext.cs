@@ -1,4 +1,4 @@
-﻿namespace soundSpace.infrastructure;
+﻿namespace SoundSpace.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Sound.Domain.Entities;
 public class SoundSpaceDbContext : DbContext
@@ -8,7 +8,7 @@ public class SoundSpaceDbContext : DbContext
         : base(options)
     {
     }
-    
+
     public DbSet<Music> Musics => Set<Music>();
     public DbSet<Artist> Artists => Set<Artist>();
     public DbSet<Album> Albums => Set<Album>();
@@ -16,10 +16,15 @@ public class SoundSpaceDbContext : DbContext
     public DbSet<Playlist> Playlists => Set<Playlist>();
     public DbSet<PlaylistMusic> PlaylistMusic => Set<PlaylistMusic>();
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(SoundSpaceDbContext).Assembly);
-        base.OnModelCreating(modelBuilder);
-    }
-    
+   protected override void OnModelCreating(ModelBuilder modelBuilder)
+{
+    modelBuilder.Entity<PlaylistMusic>()
+        .HasKey(pm => new { pm.PlaylistId, pm.MusicId });
+
+    modelBuilder.ApplyConfigurationsFromAssembly(
+        typeof(SoundSpaceDbContext).Assembly);
+
+    base.OnModelCreating(modelBuilder);
+}
+
 }

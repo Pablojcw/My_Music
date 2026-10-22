@@ -8,23 +8,16 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.13">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Sound.Domain\Sound.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="Data\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Remove="Data\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Data\**" />
+    <ProjectReference Include="..\Sound.Application\Sound.Application.csproj" />
   </ItemGroup>
 
 </Project>

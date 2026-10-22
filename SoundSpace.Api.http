@@ -1,6 +1,48 @@
 @SoundSpace.Api_HostAddress = http://localhost:5068
 
-GET {{SoundSpace.Api_HostAddress}}/weatherforecast/
+### Listar músicas
+GET {{SoundSpace.Api_HostAddress}}/api/musicas
 Accept: application/json
+
+###
+
+### Buscar música pelo código
+GET {{SoundSpace.Api_HostAddress}}/api/musicas/1
+Accept: application/json
+
+###
+
+### Cadastrar música
+POST {{SoundSpace.Api_HostAddress}}/api/musicas
+Content-Type: application/json
+
+{
+  "titulo": "Minha música",
+  "duracaoSegundos": 210,
+  "urlAudio": "https://exemplo.com/audio/minha-musica.mp3",
+  "urlCapa": "https://exemplo.com/imagens/minha-musica.jpg",
+  "artistaId": 1,
+  "albumId": null
+}
+
+###
+
+### Atualizar música
+PUT {{SoundSpace.Api_HostAddress}}/api/musicas/1
+Content-Type: application/json
+
+{
+  "titulo": "Minha música atualizada",
+  "duracaoSegundos": 215,
+  "urlAudio": "https://exemplo.com/audio/minha-musica-atualizada.mp3",
+  "urlCapa": "https://exemplo.com/imagens/minha-musica-atualizada.jpg",
+  "artistaId": 1,
+  "albumId": null
+}
+
+###
+
+### Excluir música
+DELETE {{SoundSpace.Api_HostAddress}}/api/musicas/1
 
 ###
