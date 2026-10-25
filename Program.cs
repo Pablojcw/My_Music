@@ -17,6 +17,17 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddProblemDetails();
+var allowedOrigins = builder.Configuration
+    .GetSection("Cors:AllowedOrigins")
+    .Get<string[]>() ?? Array.Empty<string>();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Frontend", policy =>
+        policy
+            .WithOrigins(allowedOrigins)
+            .WithMethods("GET", "POST", "PUT", "DELETE")
+            .WithHeaders("Accept", "Content-Type"));
+});
 builder.Logging.AddFilter("System.Net.Http.HttpClient.YouTubeApi", LogLevel.Warning);
 builder.Services.AddRateLimiter(options =>
 {
@@ -84,6 +95,7 @@ app.UseDefaultFiles();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseCors("Frontend");
 app.UseRateLimiter();
 app.UseAuthorization();
 
