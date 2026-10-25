@@ -46,3 +46,213 @@ Content-Type: application/json
 DELETE {{SoundSpace.Api_HostAddress}}/api/musicas/1
 
 ###
+
+### Listar artistas
+GET {{SoundSpace.Api_HostAddress}}/api/artistas
+Accept: application/json
+
+###
+
+### Buscar artista pelo código
+GET {{SoundSpace.Api_HostAddress}}/api/artistas/1
+Accept: application/json
+
+###
+
+### Cadastrar artista
+POST {{SoundSpace.Api_HostAddress}}/api/artistas
+Content-Type: application/json
+
+{
+  "nome": "Artista exemplo",
+  "biografia": "Biografia do artista",
+  "urlImagem": "https://exemplo.com/imagens/artista.jpg"
+}
+
+###
+
+### Atualizar artista
+PUT {{SoundSpace.Api_HostAddress}}/api/artistas/1
+Content-Type: application/json
+
+{
+  "nome": "Artista exemplo atualizado",
+  "biografia": "Biografia atualizada",
+  "urlImagem": "https://exemplo.com/imagens/artista-atualizado.jpg"
+}
+
+###
+
+### Excluir artista
+DELETE {{SoundSpace.Api_HostAddress}}/api/artistas/1
+
+###
+
+### Listar álbuns
+GET {{SoundSpace.Api_HostAddress}}/api/albuns
+Accept: application/json
+
+###
+
+### Buscar álbum pelo código
+GET {{SoundSpace.Api_HostAddress}}/api/albuns/1
+Accept: application/json
+
+###
+
+### Cadastrar álbum
+POST {{SoundSpace.Api_HostAddress}}/api/albuns
+Content-Type: application/json
+
+{
+  "titulo": "Álbum exemplo",
+  "dataLancamento": "2024-01-01T00:00:00Z",
+  "urlCapa": "https://exemplo.com/imagens/album.jpg",
+  "artistaId": 1
+}
+
+###
+
+### Atualizar álbum
+PUT {{SoundSpace.Api_HostAddress}}/api/albuns/1
+Content-Type: application/json
+
+{
+  "titulo": "Álbum exemplo atualizado",
+  "dataLancamento": "2024-02-01T00:00:00Z",
+  "urlCapa": "https://exemplo.com/imagens/album-atualizado.jpg",
+  "artistaId": 1
+}
+
+###
+
+### Excluir álbum
+DELETE {{SoundSpace.Api_HostAddress}}/api/albuns/1
+
+###
+
+### Listar playlists
+GET {{SoundSpace.Api_HostAddress}}/api/playlists
+Accept: application/json
+
+###
+
+### Buscar playlist
+GET {{SoundSpace.Api_HostAddress}}/api/playlists/1
+Accept: application/json
+
+###
+
+### Criar playlist
+POST {{SoundSpace.Api_HostAddress}}/api/playlists
+Content-Type: application/json
+
+{
+  "nome": "Favoritas",
+  "descricao": "Minhas músicas favoritas",
+  "urlCapa": "https://exemplo.com/imagens/favoritas.jpg"
+}
+
+###
+
+### Atualizar playlist
+PUT {{SoundSpace.Api_HostAddress}}/api/playlists/1
+Content-Type: application/json
+
+{
+  "nome": "Favoritas atualizada",
+  "descricao": "Playlist atualizada",
+  "urlCapa": "https://exemplo.com/imagens/favoritas-atualizada.jpg"
+}
+
+###
+
+### Listar músicas da playlist
+GET {{SoundSpace.Api_HostAddress}}/api/playlists/1/musicas
+Accept: application/json
+
+###
+
+### Adicionar música ao final da playlist
+POST {{SoundSpace.Api_HostAddress}}/api/playlists/1/musicas
+Content-Type: application/json
+
+{
+  "musicaId": 1
+}
+
+###
+
+### Adicionar música na posição zero-based informada
+POST {{SoundSpace.Api_HostAddress}}/api/playlists/1/musicas
+Content-Type: application/json
+
+{
+  "musicaId": 2,
+  "posicao": 0
+}
+
+###
+
+### Reordenar música na playlist
+PUT {{SoundSpace.Api_HostAddress}}/api/playlists/1/musicas/1/posicao
+Content-Type: application/json
+
+{
+  "posicao": 0
+}
+
+###
+
+### Remover música da playlist
+DELETE {{SoundSpace.Api_HostAddress}}/api/playlists/1/musicas/1
+
+###
+
+### Excluir playlist
+DELETE {{SoundSpace.Api_HostAddress}}/api/playlists/1
+
+###
+
+### Listar músicas da biblioteca
+GET {{SoundSpace.Api_HostAddress}}/api/biblioteca
+Accept: application/json
+
+###
+
+### Buscar música na biblioteca
+GET {{SoundSpace.Api_HostAddress}}/api/biblioteca/1
+Accept: application/json
+
+###
+
+### Salvar música na biblioteca
+POST {{SoundSpace.Api_HostAddress}}/api/biblioteca
+Content-Type: application/json
+
+{
+  "musicaId": 1
+}
+
+###
+
+### Remover música da biblioteca
+DELETE {{SoundSpace.Api_HostAddress}}/api/biblioteca/1
+
+###
+
+### Pesquisar vídeos no YouTube (configure YouTube__ApiKey no backend)
+GET {{SoundSpace.Api_HostAddress}}/api/music-search?q=Blinding%20Lights&maxResults=10
+Accept: application/json
+
+###
+
+### Salvar um vídeo do YouTube na biblioteca usando o videoId retornado na pesquisa
+POST {{SoundSpace.Api_HostAddress}}/api/music-search/biblioteca
+Content-Type: application/json
+
+{
+  "videoId": "dQw4w9WgXcQ"
+}
+
+###

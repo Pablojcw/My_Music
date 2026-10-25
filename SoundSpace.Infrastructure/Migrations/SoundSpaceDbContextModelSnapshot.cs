@@ -109,20 +109,31 @@ namespace SoundSpace.Infrastructure.Migrations
                     b.Property<int?>("AlbumId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("ArtistId")
+                    b.Property<int?>("ArtistId")
                         .HasColumnType("integer");
 
                     b.Property<string>("AudioUrl")
                         .HasColumnType("text");
 
+                    b.Property<string>("ChannelTitle")
+                        .HasColumnType("text");
+
                     b.Property<string>("CoverUrl")
                         .HasColumnType("text");
 
-                    b.Property<int>("DurationSeconds")
+                    b.Property<int?>("DurationSeconds")
                         .HasColumnType("integer");
+
+                    b.Property<int>("Source")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0);
 
                     b.Property<string>("Title")
                         .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("YouTubeVideoId")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -130,6 +141,10 @@ namespace SoundSpace.Infrastructure.Migrations
                     b.HasIndex("AlbumId");
 
                     b.HasIndex("ArtistId");
+
+                    b.HasIndex("YouTubeVideoId")
+                        .IsUnique()
+                        .HasFilter("\"YouTubeVideoId\" IS NOT NULL");
 
                     b.ToTable("Musics");
                 });
@@ -211,9 +226,7 @@ namespace SoundSpace.Infrastructure.Migrations
 
                     b.HasOne("Sound.Domain.Entities.Artist", "Artist")
                         .WithMany("Musics")
-                        .HasForeignKey("ArtistId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ArtistId");
 
                     b.Navigation("Album");
 

@@ -35,7 +35,8 @@ public sealed class MusicService(IMusicRepository musicRepository) : IMusicServi
             AudioUrl = request.AudioUrl,
             CoverUrl = request.CoverUrl,
             ArtistId = request.ArtistId,
-            AlbumId = request.AlbumId
+            AlbumId = request.AlbumId,
+            Source = MusicSource.Catalog
         };
 
         return Map(await musicRepository.AddAsync(music, cancellationToken));
@@ -59,7 +60,8 @@ public sealed class MusicService(IMusicRepository musicRepository) : IMusicServi
             AudioUrl = request.AudioUrl,
             CoverUrl = request.CoverUrl,
             ArtistId = request.ArtistId,
-            AlbumId = request.AlbumId
+            AlbumId = request.AlbumId,
+            Source = MusicSource.Catalog
         };
 
         var music = await musicRepository.UpdateAsync(id, updatedMusic, cancellationToken);
@@ -99,8 +101,11 @@ public sealed class MusicService(IMusicRepository musicRepository) : IMusicServi
             music.AudioUrl,
             music.CoverUrl,
             music.ArtistId,
-            music.Artist.Name,
+            music.Artist?.Name,
             music.AlbumId,
-            music.Album?.Title);
+            music.Album?.Title,
+            music.Source.ToString(),
+            music.YouTubeVideoId,
+            music.ChannelTitle);
     }
 }

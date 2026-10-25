@@ -9,16 +9,22 @@ public sealed record MusicResponseDto(
     [property: JsonPropertyName("titulo")]
     string Title,
     [property: JsonPropertyName("duracaoSegundos")]
-    int DurationSeconds,
+    int? DurationSeconds,
     [property: JsonPropertyName("urlAudio")]
     string? AudioUrl,
     [property: JsonPropertyName("urlCapa")]
     string? CoverUrl,
     [property: JsonPropertyName("artistaId")]
-    int ArtistId,
+    int? ArtistId,
     [property: JsonPropertyName("nomeArtista")]
-    string ArtistName,
+    string? ArtistName,
     [property: JsonPropertyName("albumId")]
     int? AlbumId,
     [property: JsonPropertyName("tituloAlbum")]
-    string? AlbumTitle);
+    string? AlbumTitle,
+    [property: JsonPropertyName("origem")]
+    string Source,
+    [property: JsonPropertyName("videoExternoId")]
+    string? ExternalVideoId,
+    [property: JsonPropertyName("nomeCanal")]
+    string? ChannelTitle);

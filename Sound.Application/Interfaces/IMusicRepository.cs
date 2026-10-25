@@ -6,6 +6,12 @@ public interface IMusicRepository
 {
     Task<IReadOnlyList<Music>> GetAllAsync(CancellationToken cancellationToken);
     Task<Music?> GetByIdAsync(int id, CancellationToken cancellationToken);
+    Task<Music?> GetByYouTubeVideoIdAsync(
+        string videoId,
+        CancellationToken cancellationToken);
+    Task<LibraryMusic> SaveYouTubeVideoToLibraryAsync(
+        Music music,
+        CancellationToken cancellationToken);
     Task<bool> ArtistExistsAsync(int artistId, CancellationToken cancellationToken);
     Task<bool> AlbumBelongsToArtistAsync(
         int albumId,

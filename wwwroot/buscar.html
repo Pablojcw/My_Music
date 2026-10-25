@@ -1,0 +1,28 @@
+<header class="topbar">
+  <div class="breadcrumbs"><span>SoundSpace</span><span class="breadcrumb-separator">/</span><strong>Buscar</strong></div>
+  <div class="profile-chip"><span class="profile-avatar">S</span><span>Meu espaço</span></div>
+</header>
+
+<section class="search-page-section" aria-labelledby="search-title">
+  <div class="page-intro">
+    <p class="eyebrow">DESCUBRA ALGO NOVO</p>
+    <h1 id="search-title">O que você quer ouvir?</h1>
+    <p>Pesquise por música, artista ou vídeo. Os resultados vêm do YouTube e não precisam estar cadastrados no SoundSpace.</p>
+  </div>
+  <form class="search-form" id="search-form">
+    <label class="sr-only" for="search-input">Buscar música, artista ou vídeo</label>
+    <label class="search-icon" for="search-input" aria-hidden="true">⌕</label>
+    <input id="search-input" name="q" type="search" maxlength="100" placeholder="Busque por música, artista ou vídeo..." autocomplete="off" required>
+    <button class="search-button" type="submit"><span>Buscar</span><span aria-hidden="true">↗</span></button>
+  </form>
+  <p class="search-hint">A reprodução acontece no player oficial do YouTube, dentro do SoundSpace.</p>
+  <p class="status-message" id="search-status" role="status" aria-live="polite"></p>
+  <section class="results-section" id="results-section" hidden aria-labelledby="results-title">
+    <div class="section-heading compact-heading">
+      <div><p class="eyebrow">RESULTADOS DO YOUTUBE</p><h2 id="results-title">Encontramos para você</h2></div>
+      <span class="result-count" id="result-count"></span>
+    </div>
+    <div class="results-grid" id="results-list"></div>
+  </section>
+</section>
+<footer class="footer-note"><span>Feito para ouvir do seu jeito.</span><span>Vídeos e reprodução fornecidos pelo YouTube.</span></footer>

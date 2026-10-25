@@ -21,6 +21,14 @@ public class SoundSpaceDbContext : DbContext
     modelBuilder.Entity<PlaylistMusic>()
         .HasKey(pm => new { pm.PlaylistId, pm.MusicId });
 
+    modelBuilder.Entity<Music>()
+        .HasIndex(music => music.YouTubeVideoId)
+        .IsUnique()
+        .HasFilter("\"YouTubeVideoId\" IS NOT NULL");
+    modelBuilder.Entity<Music>()
+        .Property(music => music.Source)
+        .HasDefaultValue(MusicSource.Catalog);
+
     modelBuilder.ApplyConfigurationsFromAssembly(
         typeof(SoundSpaceDbContext).Assembly);
 

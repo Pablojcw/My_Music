@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Sound.Application.Exceptions;
 using Sound.Application.Interfaces;
 using Sound.Domain.Entities;
 using SoundSpace.Infrastructure.Data;
@@ -25,6 +26,59 @@ public sealed class MusicRepository(SoundSpaceDbContext dbContext) : IMusicRepos
             .FirstOrDefaultAsync(music => music.Id == id, cancellationToken);
     }
 
+    public async Task<Music?> GetByYouTubeVideoIdAsync(
+        string videoId,
+        CancellationToken cancellationToken)
+    {
+        return await dbContext.Musics
+            .AsNoTracking()
+            .Include(music => music.Artist)
+            .Include(music => music.Album)
+            .FirstOrDefaultAsync(
+                music => music.Source == MusicSource.YouTube &&
+                    music.YouTubeVideoId == videoId,
+                cancellationToken);
+    }
+
+    public async Task<LibraryMusic> SaveYouTubeVideoToLibraryAsync(
+        Music music,
+        CancellationToken cancellationToken)
+    {
+        await using var transaction = await dbContext.Database
+            .BeginTransactionAsync(cancellationToken);
+
+        var savedMusic = await dbContext.Musics
+            .FirstOrDefaultAsync(
+                existing => existing.Source == MusicSource.YouTube &&
+                    existing.YouTubeVideoId == music.YouTubeVideoId,
+                cancellationToken);
+
+        if (savedMusic is null)
+        {
+            savedMusic = music;
+            dbContext.Musics.Add(savedMusic);
+            await dbContext.SaveChangesAsync(cancellationToken);
+        }
+
+        if (await dbContext.LibraryMusic.AnyAsync(
+                item => item.MusicId == savedMusic.Id,
+                cancellationToken))
+        {
+            throw new ResourceConflictException("Este vídeo já está salvo na biblioteca.");
+        }
+
+        var libraryItem = new LibraryMusic
+        {
+            Music = savedMusic,
+            SavedAt = DateTime.UtcNow
+        };
+        dbContext.LibraryMusic.Add(libraryItem);
+        await dbContext.SaveChangesAsync(cancellationToken);
+        await transaction.CommitAsync(cancellationToken);
+
+        return libraryItem;
+    }
+
     public Task<bool> ArtistExistsAsync(int artistId, CancellationToken cancellationToken)
     {
         return dbContext.Artists
@@ -44,8 +98,11 @@ public sealed class MusicRepository(SoundSpaceDbContext dbContext) : IMusicRepos
 
     public async Task<Music> AddAsync(Music music, CancellationToken cancellationToken)
     {
-        music.Artist = await dbContext.Artists
-            .SingleAsync(artist => artist.ArtistId == music.ArtistId, cancellationToken);
+        music.Artist = music.ArtistId is int artistId
+            ? await dbContext.Artists.SingleAsync(
+                artist => artist.ArtistId == artistId,
+                cancellationToken)
+            : null;
         music.Album = music.AlbumId is int albumId
             ? await dbContext.Albums.SingleAsync(album => album.Id == albumId, cancellationToken)
             : null;
@@ -73,12 +130,18 @@ public sealed class MusicRepository(SoundSpaceDbContext dbContext) : IMusicRepos
         music.AudioUrl = updatedMusic.AudioUrl;
         music.CoverUrl = updatedMusic.CoverUrl;
         music.ArtistId = updatedMusic.ArtistId;
-        music.Artist = await dbContext.Artists
-            .SingleAsync(artist => artist.ArtistId == updatedMusic.ArtistId, cancellationToken);
+        music.Artist = updatedMusic.ArtistId is int artistId
+            ? await dbContext.Artists.SingleAsync(
+                artist => artist.ArtistId == artistId,
+                cancellationToken)
+            : null;
         music.AlbumId = updatedMusic.AlbumId;
         music.Album = updatedMusic.AlbumId is int albumId
             ? await dbContext.Albums.SingleAsync(album => album.Id == albumId, cancellationToken)
             : null;
+        music.Source = updatedMusic.Source;
+        music.YouTubeVideoId = updatedMusic.YouTubeVideoId;
+        music.ChannelTitle = updatedMusic.ChannelTitle;
 
         await dbContext.SaveChangesAsync(cancellationToken);
         return music;
